@@ -9,22 +9,21 @@ from .managers import CurrencyManager
 
 @python_2_unicode_compatible
 class Currency(models.Model):
-
     code = models.CharField(_('code'), max_length=3,
                             primary_key=True)
     name = models.CharField(_('name'), max_length=55,
                             db_index=True)
     symbol = models.CharField(_('symbol'), max_length=4, blank=True,
-                            db_index=True)
+                              db_index=True)
     factor = models.DecimalField(_('factor'), max_digits=30, decimal_places=10, default=1.0,
-        help_text=_('Specifies the currency rate ratio to the base currency.'))
+                                 help_text=_('Specifies the currency rate ratio to the base currency.'))
 
     is_active = models.BooleanField(_('active'), default=True,
-        help_text=_('The currency will be available.'))
+                                    help_text=_('The currency will be available.'))
     is_base = models.BooleanField(_('base'), default=False,
-        help_text=_('Make this the base currency against which rate factors are calculated.'))
+                                  help_text=_('Make this the base currency against which rate factors are calculated.'))
     is_default = models.BooleanField(_('default'), default=False,
-        help_text=_('Make this the default user currency.'))
+                                     help_text=_('Make this the default user currency.'))
 
     # Used to store other available information about a currency
     info = models.JSONField(blank=True, default=dict)

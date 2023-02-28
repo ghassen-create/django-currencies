@@ -8,18 +8,16 @@ from django.core.management.base import BaseCommand
 from django.core.exceptions import ImproperlyConfigured
 from ...models import Currency
 
-
 # The list of available backend currency sources
 sources = OrderedDict([
     # oxr must remain first for backward compatibility
-    ('oxr',     '._openexchangerates'),
-    ('yahoo',   '._yahoofinance'),
-    ('iso',     '._currencyiso'),
-    #TODO:
-    #('google', '._googlecalculator.py'),
-    #('ecb', '._europeancentralbank.py'),
+    ('oxr', '._openexchangerates'),
+    ('yahoo', '._yahoofinance'),
+    ('iso', '._currencyiso'),
+    # TODO:
+    # ('google', '._googlecalculator.py'),
+    # ('ecb', '._europeancentralbank.py'),
 ])
-
 
 logger = logging.getLogger("django.currencies")
 
@@ -31,18 +29,19 @@ class Command(BaseCommand):
     _source_param = 'source'
     _source_default = next(iter(sources))
     _source_kwargs = {'action': 'store', 'nargs': '?', 'default': _source_default,
-                        'choices': sources.keys(),
-                        'help': 'Select the desired currency source, default is ' + _source_default}
+                      'choices': sources.keys(),
+                      'help': 'Select the desired currency source, default is ' + _source_default}
 
     def add_arguments(self, parser):
         """Add command arguments"""
         parser.add_argument(self._source_param, **self._source_kwargs)
         parser.add_argument('--force', '-f', action='store_true', default=False,
-            help='Update database even if currency already exists')
+                            help='Update database even if currency already exists')
         parser.add_argument('--import', '-i', action='append', default=[],
-            help=   'Selectively import currencies by supplying the currency codes (e.g. USD) one per switch, '
-                    'or supply an uppercase settings variable name with an iterable (once only), '
-                    'or looks for settings CURRENCIES or SHOP_CURRENCIES.')
+                            help='Selectively import currencies by supplying the currency codes (e.g. USD) one per '
+                                 'switch,'
+                                 'or supply an uppercase settings variable name with an iterable (once only), '
+                                 'or looks for settings CURRENCIES or SHOP_CURRENCIES.')
 
     def get_imports(self, option):
         """
@@ -131,10 +130,10 @@ class Command(BaseCommand):
                 if created:
                     kwargs['is_active'] = False
                     msg = "Creating %s"
-                    obj.info.update( {'Created': timestamp} )
+                    obj.info.update({'Created': timestamp})
                 else:
                     msg = "Updating %s"
-                obj.info.update( {'Modified': timestamp} )
+                obj.info.update({'Modified': timestamp})
 
                 if name:
                     kwargs['name'] = name
