@@ -7,7 +7,6 @@ import django
 from django.conf import settings, global_settings
 from django.core.management import execute_from_command_line
 
-
 MIDDLEWARE = (
     'django.middleware.common.CommonMiddleware',
     'django.contrib.sessions.middleware.SessionMiddleware',
@@ -19,14 +18,14 @@ if not settings.configured:
     module_root = path.dirname(path.realpath(__file__))
 
     settings.configure(
-        DEBUG = False,
-        DATABASES = {
+        DEBUG=False,
+        DATABASES={
             'default': {
                 'ENGINE': 'django.db.backends.sqlite3',
                 'NAME': ':memory:'
             }
         },
-        TEMPLATES = [
+        TEMPLATES=[
             {
                 'BACKEND': 'django.template.backends.django.DjangoTemplates',
                 'APP_DIRS': True,
@@ -35,7 +34,7 @@ if not settings.configured:
                 },
             },
         ],
-        INSTALLED_APPS = (
+        INSTALLED_APPS=(
             'django.contrib.auth',
             'django.contrib.contenttypes',
             'django.contrib.sessions',
@@ -43,15 +42,17 @@ if not settings.configured:
             'currencies',
         ),
         # For django 1.8 to 2.1 compatibility
-        MIDDLEWARE = MIDDLEWARE,
-        MIDDLEWARE_CLASSES = MIDDLEWARE,
-        SITE_ID = 1,
-        ROOT_URLCONF = 'currencies.tests.test_urls',
+        MIDDLEWARE=MIDDLEWARE,
+        MIDDLEWARE_CLASSES=MIDDLEWARE,
+        SITE_ID=1,
+        ROOT_URLCONF='currencies.tests.test_urls',
     )
+
 
 def runtests():
     argv = sys.argv[:1] + ['test'] + sys.argv[1:]
     execute_from_command_line(argv)
+
 
 if __name__ == '__main__':
     runtests()
